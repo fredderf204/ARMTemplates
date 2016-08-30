@@ -23,16 +23,16 @@ Now have installed either Azure Powershell or the Azure CLI you are ready to dep
 ### Azure PowerShell
 https://azure.microsoft.com/en-us/documentation/articles/resource-group-template-deploy/
 
-### Azure CLI
+#### Azure CLI
 https://azure.microsoft.com/en-us/documentation/articles/resource-group-template-deploy-cli/
 
 ## Example
 Please see some examples below;
 
 ### Azure Powershell
-`New-AzureRmResourceGroup -Name demo01 -Location "Australia East"`
-`Test-AzureRmResourceGroupDeployment -ResourceGroupName demo01 -TemplateUri 'https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.json' -TemplateParameterUri 'https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.parameters.json' -Verbose`
-`New-AzureRmResourceGroupDeployment -ResourceGroupName demo01 -TemplateUri 'https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.json' -TemplateParameterUri 'https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.parameters.json' -Verbose`
+1. `New-AzureRmResourceGroup -Name demo01 -Location "Australia East"`
+2. `Test-AzureRmResourceGroupDeployment -ResourceGroupName demo01 -TemplateUri 'https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.json' -TemplateParameterUri 'https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.parameters.json' -Verbose`
+3. `New-AzureRmResourceGroupDeployment -ResourceGroupName demo01 -TemplateUri 'https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.json' -TemplateParameterUri 'https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.parameters.json' -Verbose`
 
 ### Azure CLI
 `azure group create demo02 "australia east"`
