@@ -1,0 +1,88 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appServicePlanName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of hosting plan"
+      }
+    },
+    "sku": {
+      "type": "string",
+      "metadata": {
+        "description": "SKU value"
+      }
+    },
+    "workerSize": {
+      "type": "string",
+      "metadata": {
+        "description": "Worker Size( 0=Small, 1=Medium, 2=Large )"
+      }
+    },
+    "numberworkers": {
+        "type": "string",
+        "metadata": {
+            "description": "Number of worker instances to be deployed"
+        }
+    },
+    "webappname": {
+        "type": "string",
+        "metadata": {
+            "description": "Name of the web app"
+        }
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-04-01",
+      "name": "[parameters('appServicePlanName')]",
+      "type": "Microsoft.Web/serverfarms",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "name": "[parameters('appServicePlanName')]",
+        "sku": "[parameters('sku')]",
+        "workerSize": "[parameters('workerSize')]",
+        "numberOfWorkers": "[parameters('numberworkers')]",
+        "location": "[resourceGroup().location]"
+      }
+    },
+{
+       "apiVersion": "2015-04-01",
+       "name": "[parameters('webappName')]",
+       "type": "Microsoft.Web/sites",
+       "location": "[resourceGroup().location]",
+       "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ],
+      "properties": {
+        "name": "[parameters('webappName')]",
+        "serverFarmId": "[parameters('appServicePlanName')]"
+    }
+    },
+ {
+       "apiVersion": "2015-04-01",
+       "name": "[concat(parameters('webappName'),'/web')]",
+       "type": "Microsoft.Web/sites/config",
+       "location": "[resourceGroup().location]",
+       "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
+        "[resourceId('Microsoft.Web/sites', parameters('webappName'))]"
+      ],
+      "properties": {
+        "scmType": "LocalGit"
+         }
+      }
+  ],
+  "outputs": {
+    "web app url": {
+        "type": "string",
+        "value": "[concat('http://', parameters('webappname'), '.azurewebsites.net')]"
+    },
+      "remote git url": {
+          "type": "string",
+          "value": "[concat('https://mfnode101admin@', parameters('webappName'), '.scm.azurewebsites.net:443/', parameters('webappName'), '.git')]"
+      }
+  }
+}
+
