@@ -41,4 +41,4 @@ Please see some examples below;
 
 **Please note that you will need to change the repoURL and branch values to suit your needs. 
 
-Also feel free to fork demo app https://github.com/fredderf204/mfnode22
+Also feel free to fork my demo app https://github.com/fredderf204/mfnode22
