@@ -1,7 +1,7 @@
 # ARM Templates
 This is a collection of demo Azure Resource Manager Templates that I am working on.
 
-## Key
+## Index
 webapp_github - Deploy a demo Azure Web App with SCM integration with a Public GitHub Repo
 
 webapp_github_auto - Deploy a demo Azure Web App with GitHub SCM integration and an Autoscaling profile
