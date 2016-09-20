@@ -10,7 +10,7 @@
 Import-Module AzureRM.Resources
 
 #Login
-#Login-AzureRmAccount
+Login-AzureRmAccount
 
 #Create random strings for deployment
 $par1 = -join ((65..90) + (97..122) | Get-Random -Count 8 | % {[char]$_})
@@ -19,7 +19,7 @@ $par3 = -join ((65..90) + (97..122) | Get-Random -Count 8 | % {[char]$_})
 $par4 = -join ((65..90) + (97..122) | Get-Random -Count 8 | % {[char]$_})
 
 #GitHub parameters
-$GHTempfile = ""
+$GHTempfile = "https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/trafficmanager_2webapp/azuredeploy.json"
 $repoURL = "https://github.com/fredderf204/mfnode22.git"
 $branch = "master"
 
@@ -27,4 +27,4 @@ $branch = "master"
 New-AzureRmResourceGroup -Name $par1 -Location "Australia East"
 
 #Deploy azure resources from template
-New-AzureRmResourceGroupDeployment -ResourceGroupName $par1 -TemplateFile .\azuredeploy.json -uniqueDnsName $par2 -appServicePlanName $par3 -uniqueDnsNameForWebApp $par4 -repoURL $repoURL -branch $branch -Verbose
+New-AzureRmResourceGroupDeployment -ResourceGroupName $par1 -TemplateFile $GHTempfile -uniqueDnsName $par2 -appServicePlanName $par3 -uniqueDnsNameForWebApp $par4 -repoURL $repoURL -branch $branch -Verbose
