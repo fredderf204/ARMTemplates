@@ -6,7 +6,9 @@ This is a collection of demo Azure Resource Manager Templates that I am working 
 
 *webapp_github_auto* - Deploy a demo Azure Web App with GitHub SCM integration and an Autoscaling profile
 
-*webapp_localgit* - Deploy an Azure Web App with local Git SCM integration  
+*webapp_localgit* - Deploy an Azure Web App with local Git SCM integration
+
+*trafficmanager_2webapp* - Deploy 2 Azure Web Apps in different regions with a Traffic Manager Profile using weighted traffic Routing Method  
 
 ## Installation
 To deploy these ARM templates, you will need to have either Azure PowerShell or the Azure CLI installed. Please see links below;
