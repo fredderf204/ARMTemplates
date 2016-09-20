@@ -1,0 +1,137 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "uniqueDnsName": {
+            "type": "string",
+            "metadata": {
+                "description": "DNS name for the traffic manager profile, resulting FQDN will be <uniqueDnsName>.trafficmanager.net, must be globally unique."
+            }
+        },
+        "uniqueDnsNameForWebApp": {
+            "type": "string",
+            "metadata": {
+                "description": "DNS name for the WebApps, must be globally unique.  An index will be appended for each Web App."
+            }
+        },
+        "appServicePlanName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the App Service Plans. An index will be appended for each App Service Plan."
+            }
+        },
+        "repoURL": {
+            "type": "string",
+            "metadata": {
+                "description": "The URL to the GitHub repo"
+            }
+        },
+        "branch": {
+            "type": "string",
+            "metadata": {
+                "description": "The branch name of the GitHub repo"
+            }
+        }
+    },
+    "variables": {
+        "tmApiVersion": "2015-11-01",
+        "apiVersion": "2015-08-01",
+        "webAppLocations": [ "Australia East", "Australia SouthEast" ]
+    },
+
+    "resources": [
+        {
+            "apiVersion": "[variables('apiVersion')]",
+            "name": "[concat(parameters('appServicePlanName'), copyIndex())]",
+            "type": "Microsoft.Web/serverfarms",
+            "copy": {
+                "name": "farmloop",
+                "count": 2
+            },
+            "location": "[variables('webAppLocations')[copyIndex()]]",
+            "sku": {
+                "name": "S1",
+                "tier": "Standard"
+            }
+        },
+        {
+            "apiVersion": "[variables('apiVersion')]",
+            "name": "[concat(parameters('uniqueDnsNameForWebApp'), copyIndex())]",
+            "type": "Microsoft.Web/sites",
+            "copy": {
+                "name": "siteloop",
+                "count": 2
+            },
+            "location": "[variables('webAppLocations')[copyIndex()]]",
+            "dependsOn": [ "[concat(parameters('appServicePlanName'), copyIndex())]" ],
+            "properties": {
+                "serverFarmId": "[concat(parameters('appServicePlanName'), copyIndex())]"
+            },
+            "resources": [
+                {
+                "apiVersion": "[variables('apiVersion')]",
+                "name": "web",
+                "type": "sourcecontrols",
+                "dependsOn": [
+                    "[concat(parameters('uniqueDnsNameForWebApp'), copyIndex())]"
+                ],
+                "properties": {
+                    "clientAffinityEnabled": false,
+                    "RepoUrl": "[parameters('repoURL')]",
+                    "branch": "[parameters('branch')]",
+                    "IsManualIntegration": false
+                    }
+                }
+            ]
+        },
+        {
+            "apiVersion": "[variables('tmApiVersion')]",
+            "type": "Microsoft.Network/trafficManagerProfiles",
+            "name": "WebsiteEndpointExample",
+            "location": "global",
+            "dependsOn": [
+                "[concat('Microsoft.Web/sites/', parameters('uniqueDnsNameForWebApp'), '0')]",
+                "[concat('Microsoft.Web/sites/', parameters('uniqueDnsNameForWebApp'), '1')]"
+            ],
+            "properties": {
+                "profileStatus": "Enabled",
+                "trafficRoutingMethod": "Weighted",
+                "dnsConfig": {
+                    "relativeName": "[parameters('uniqueDnsName')]",
+                    "ttl": 30
+                },
+                "monitorConfig": {
+                    "protocol": "http",
+                    "port": 80,
+                    "path": "/"
+                },
+                "endpoints": [
+                    {
+                        "name": "endpoint0",
+                        "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
+                        "properties": {
+                            "targetResourceId": "[resourceId('Microsoft.Web/sites/',concat(parameters('uniqueDnsNameForWebApp'), '0'))]",
+                            "endpointStatus": "Enabled",
+                            "weight": 50
+                        }
+                    },
+                    {
+                        "name": "endpoint1",
+                        "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
+                        "properties": {
+                            "targetResourceId": "[resourceId('Microsoft.Web/sites/',concat(parameters('uniqueDnsNameForWebApp'), '1'))]",
+                            "endpointStatus": "Enabled",
+                            "weight": 50
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+  "outputs": {
+    "traffic manager url": {
+        "type": "string",
+        "value": "[concat('http://', parameters('uniqueDnsName'), '.trafficmanager.net')]"
+    }
+  }
+}
