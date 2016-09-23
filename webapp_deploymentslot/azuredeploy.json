@@ -9,10 +9,10 @@
       }
     },
     "webappname": {
-        "type": "string",
-        "metadata": {
-            "description": "Name of the web app"
-        }
+      "type": "string",
+      "metadata": {
+        "description": "Name of the web app"
+      }
     },
     "repoURL": {
       "type": "string",
@@ -27,10 +27,10 @@
       }
     },
     "slotName": {
-        "type": "string",
-        "metadata": {
-            "description": "Name if the Deployment Slot"
-        }
+      "type": "string",
+      "metadata": {
+        "description": "Name if the Deployment Slot"
+      }
     }
   },
   "variables": {
@@ -50,78 +50,104 @@
         "name": "[parameters('appServicePlanName')]"
       }
     },
-{
-       "apiVersion": "[variables('apiVersion')]",
-       "name": "[parameters('webappName')]",
-       "type": "Microsoft.Web/sites",
-       "location": "[resourceGroup().location]",
-       "dependsOn": [
+    {
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[parameters('webappName')]",
+      "type": "Microsoft.Web/sites",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
       ],
       "properties": {
         "serverFarmId": "[parameters('appServicePlanName')]"
-    },
+      },
       "resources": [
         {
           "apiVersion": "[variables('apiVersion')]",
           "name": "appsettings",
           "type": "config",
           "dependsOn": [
-                "[resourceId('Microsoft.Web/Sites', parameters('webappName'))]",
-                "[resourceId('Microsoft.Web/Sites/Slots', parameters('webappName'), parameters('slotName'))]"
-                ],
+            "[resourceId('Microsoft.Web/Sites', parameters('webappName'))]"
+          ],
           "properties": {
             "slotname": "Production"
-            }
-          },
+          }
+        },
         {
-            "apiVersion": "[variables('apiVersion')]",
-            "name": "[parameters('slotName')]",
-            "type": "slots",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                 "[resourceId('Microsoft.Web/Sites', parameters('webappName'))]"
-                ],
-            "properties": {},
-                "resources": [
-                      {
-                            "apiVersion": "[variables('apiVersion')]",
-                            "name": "appsettings",
-                            "type": "config",
-                            "dependsOn": [
-                                "[resourceId('Microsoft.Web/Sites/Slots', parameters('webappName'), parameters('slotName'))]"
-                            ],
-                            "properties": {
-                              "slotname": "Staging"
-                            }
-                        },
-                     {
-                        "apiVersion": "[variables('apiVersion')]",
-                        "name": "web",
-                        "type": "sourcecontrols",
-                            "dependsOn": [
-                                "[resourceId('Microsoft.Web/Sites/Slots', parameters('webappName'), parameters('slotName'))]",
-                                "[resourceId('Microsoft.Web/Sites/Slots/config', parameters('webappName'), parameters('slotName'), 'appsettings')]"
-                            ],
-                        "properties": {
-                            "RepoUrl": "[parameters('repoUrl')]",
-                            "branch": "[parameters('branch')]"
-                            }
-                        }
+          "apiVersion": "[variables('apiVersion')]",
+          "name": "slotconfignames",
+          "type": "config",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', parameters('webappName'))]",
+            "[resourceId('Microsoft.Web/Sites/Slots/config', parameters('webappName'), 'appsettings')]"
+          ],
+          "properties": {
+            "appSettingNames": [
+              "slotname"
+            ]
+          }
+        },
+        {
+          "apiVersion": "[variables('apiVersion')]",
+          "name": "[parameters('slotName')]",
+          "type": "slots",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', parameters('webappName'))]"
+          ],
+          "properties": {},
+          "resources": [
+            {
+              "apiVersion": "[variables('apiVersion')]",
+              "name": "appsettings",
+              "type": "config",
+              "dependsOn": [
+                "[resourceId('Microsoft.Web/Sites/Slots', parameters('webappName'), parameters('slotName'))]"
+              ],
+              "properties": {
+                "slotname": "Staging"
+              }
+            },
+            {
+              "apiVersion": "[variables('apiVersion')]",
+              "name": "slotconfignames",
+              "type": "config",
+              "dependsOn": [
+                "[resourceId('Microsoft.Web/Sites', parameters('webappName'))]",
+                "[resourceId('Microsoft.Web/Sites/Slots/config', parameters('webappName'), parameters('slotName'), 'appsettings')]"
+              ],
+              "properties": {
+                "appSettingNames": [
+                  "slotname"
                 ]
+              }
+            },
+            {
+              "apiVersion": "[variables('apiVersion')]",
+              "name": "web",
+              "type": "sourcecontrols",
+              "dependsOn": [
+                "[resourceId('Microsoft.Web/Sites/Slots', parameters('webappName'), parameters('slotName'))]",
+                "[resourceId('Microsoft.Web/Sites/Slots/config', parameters('webappName'), parameters('slotName'), 'appsettings')]"
+              ],
+              "properties": {
+                "RepoUrl": "[parameters('repoUrl')]",
+                "branch": "[parameters('branch')]"
+              }
+            }
+          ]
         }
-  ]
-}
+      ]
+    }
   ],
   "outputs": {
     "web app url": {
-        "type": "string",
-        "value": "[concat('http://', parameters('webappname'), '.azurewebsites.net')]"
+      "type": "string",
+      "value": "[concat('http://', parameters('webappname'), '.azurewebsites.net')]"
     },
     "web app slot url": {
-        "type": "string",
-        "value": "[concat('http://', parameters('webappname'), '-', parameters('slotName'), '.azurewebsites.net')]"
+      "type": "string",
+      "value": "[concat('http://', parameters('webappname'), '-', parameters('slotName'), '.azurewebsites.net')]"
     }
   }
 }
-
