@@ -1,0 +1,21 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appServicePlanName": {
+      "value": "GEN-UNIQUE"
+    },
+    "webappname": {
+      "value": "GEN-UNIQUE"
+    },
+    "repoURL": {
+      "value": "https://github.com/fredderf204/mfnode22.git"
+    },
+    "branch": {
+      "value": "master"
+    },
+    "slotName": {
+        "value": "staging"
+    }
+  }
+}

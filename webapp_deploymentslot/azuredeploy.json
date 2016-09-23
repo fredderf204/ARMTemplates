@@ -1,0 +1,126 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appServicePlanName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of hosting plan"
+      }
+    },
+    "webappname": {
+        "type": "string",
+        "metadata": {
+            "description": "Name of the web app"
+        }
+    },
+    "repoURL": {
+      "type": "string",
+      "metadata": {
+        "description": "The URL to the GitHub repo"
+      }
+    },
+    "branch": {
+      "type": "string",
+      "metadata": {
+        "description": "The branch name of the GitHub repo"
+      }
+    },
+    "slotName": {
+        "type": "string",
+        "metadata": {
+            "description": "Name if the Deployment Slot"
+        }
+    }
+  },
+  "variables": {
+    "apiVersion": "2015-08-01"
+  },
+  "resources": [
+    {
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[parameters('appServicePlanName')]",
+      "type": "Microsoft.Web/serverfarms",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "S1",
+        "tier": "Standard"
+      },
+      "properties": {
+        "name": "[parameters('appServicePlanName')]"
+      }
+    },
+{
+       "apiVersion": "[variables('apiVersion')]",
+       "name": "[parameters('webappName')]",
+       "type": "Microsoft.Web/sites",
+       "location": "[resourceGroup().location]",
+       "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ],
+      "properties": {
+        "serverFarmId": "[parameters('appServicePlanName')]"
+    },
+      "resources": [
+        {
+          "apiVersion": "[variables('apiVersion')]",
+          "name": "appsettings",
+          "type": "config",
+          "dependsOn": [
+                "[resourceId('Microsoft.Web/Sites/Slots', parameters('webappName'), parameters('slotName'))]"
+                ],
+          "properties": {
+            "slotname": "Production"
+            }
+          },
+        {
+            "apiVersion": "[variables('apiVersion')]",
+            "name": "[parameters('slotName')]",
+            "type": "slots",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                 "[resourceId('Microsoft.Web/Sites', parameters('webappName'))]"
+                ],
+            "properties": {},
+                "resources": [
+                      {
+                            "apiVersion": "[variables('apiVersion')]",
+                            "name": "appsettings",
+                            "type": "config",
+                            "dependsOn": [
+                                "[resourceId('Microsoft.Web/Sites/Slots', parameters('webappName'), parameters('slotName'))]"
+                            ],
+                            "properties": {
+                              "slotname": "Staging"
+                            }
+                        },
+                     {
+                        "apiVersion": "[variables('apiVersion')]",
+                        "name": "web",
+                        "type": "sourcecontrols",
+                            "dependsOn": [
+                                "[resourceId('Microsoft.Web/Sites/Slots', parameters('webappName'), parameters('slotName'))]",
+                                "[resourceId('Microsoft.Web/Sites/Slots/config', parameters('webappName'), parameters('slotName'), 'appsettings')]"
+                            ],
+                        "properties": {
+                            "RepoUrl": "[parameters('repoUrl')]",
+                            "branch": "[parameters('branch')]"
+                            }
+                        }
+                ]
+        }
+  ]
+}
+  ],
+  "outputs": {
+    "web app url": {
+        "type": "string",
+        "value": "[concat('http://', parameters('webappname'), '.azurewebsites.net')]"
+    },
+    "web app slot url": {
+        "type": "string",
+        "value": "[concat('http://', parameters('webappname'), '-', parameters('slotName'), '.azurewebsites.net')]"
+    }
+  }
+}
+
