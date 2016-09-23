@@ -78,7 +78,7 @@
           "name": "slotconfignames",
           "type": "config",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites', parameters('webappName'))]",
+            "[resourceId('Microsoft.Web/Sites', parameters('webappName'))]"
           ],
           "properties": {
             "appSettingNames": [
@@ -112,7 +112,7 @@
               "name": "slotconfignames",
               "type": "config",
               "dependsOn": [
-                "[resourceId('Microsoft.Web/Sites', parameters('webappName'))]",
+                "[resourceId('Microsoft.Web/Sites', parameters('webappName'))]"
               ],
               "properties": {
                 "appSettingNames": [
