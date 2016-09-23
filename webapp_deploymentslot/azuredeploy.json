@@ -113,7 +113,7 @@
               "type": "config",
               "dependsOn": [
                 "[resourceId('Microsoft.Web/Sites', parameters('webappName'))]",
-                "[resourceId('Microsoft.Web/Sites', parameters('webappName'), '/Slots', parameters('slotName'))]"
+                "[resourceId('Microsoft.Web/Sites/Slots', parameters('webappName'), parameters('slotName'))]"
               ],
               "properties": {
                 "appSettingNames": [
