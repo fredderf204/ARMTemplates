@@ -15,7 +15,7 @@ $par2 = -join ((65..90) + (97..122) | Get-Random -Count 8 | % {[char]$_})
 $par3 = -join ((65..90) + (97..122) | Get-Random -Count 8 | % {[char]$_})
 
 #GitHub parameters
-#$GHTempfile = "https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/trafficmanager_2webapp/azuredeploy.json"
+$GHTempfile = 'https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_deploymentslot/azuredeploy.json'
 $repoURL = 'https://github.com/fredderf204/mfnode22.git'
 $branch = 'master'
 $slotname = 'staging'
