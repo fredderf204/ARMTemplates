@@ -74,7 +74,7 @@
           }
         },
         {
-          "apiVersion": "2015-04-01",
+          "apiVersion": "[variables('apiVersion')]",
           "name": "slotconfignames",
           "type": "config",
           "dependsOn": [
@@ -113,7 +113,7 @@
               "type": "config",
               "dependsOn": [
                 "[resourceId('Microsoft.Web/Sites', parameters('webappName'))]",
-                "[resourceId('Microsoft.Web/Sites/Slots', parameters('webappName'), parameters('slotName'))]"
+                "[resourceId('Microsoft.Web/Sites', parameters('webappName'), '/Slots', parameters('slotName'))]"
               ],
               "properties": {
                 "appSettingNames": [
