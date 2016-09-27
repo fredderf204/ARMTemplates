@@ -40,11 +40,15 @@ The reason I have started using these scripts is because
 2. When producing demos in azure, I use the script to randomise the names of my resource groups and resources.  
 
 #### Azure PowerShell
+Below is one example on how to use PowerShell deploy a new reosurce group in azure, followed by the command to test the ARM template and finally followed by a command to deploy the template to azure.
+
 1. `New-AzureRmResourceGroup -Name demo01 -Location "Australia East"`
 2. `Test-AzureRmResourceGroupDeployment -ResourceGroupName demo01 -TemplateUri 'https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.json' -TemplateParameterUri 'https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.parameters.json' -Verbose`
 3. `New-AzureRmResourceGroupDeployment -ResourceGroupName demo01 -TemplateUri 'https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.json' -TemplateParameterUri 'https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.parameters.json' -Verbose`
 
 #### Azure CLI
+Below is one example on how to use bash and the azure xplat cli to deploy a new reosurce group in azure, followed by the command to test the ARM template and finally followed by a command to deploy the template to azure.
+
 1. `azure group create demo02 "australia east"`
 2. `azure group template validate --template-uri https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.json -g demo02 -p "{\"appServicePlanName\":{\"value\":\"mfappplan03\"},\"sku\":{\"value\":\"F1\"},\"workerSize\":{\"value\":\"0\"},\"numberworkers\":{\"value\":\"1\"},\"webappname\":{\"value\":\"mfdemo004\"},\"repoURL\":{\"value\":\"https://github.com/fredderf204/mfnode22.git\"},\"branch\":{\"value\":\"master\"}}"`
 3. `azure group deployment create --template-uri https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.json -g demo02 -p "{\"appServicePlanName\":{\"value\":\"mfappplan03\"},\"sku\":{\"value\":\"F1\"},\"workerSize\":{\"value\":\"0\"},\"numberworkers\":{\"value\":\"1\"},\"webappname\":{\"value\":\"mfdemo004\"},\"repoURL\":{\"value\":\"https://github.com/fredderf204/mfnode22.git\"},\"branch\":{\"value\":\"master\"}}"`
