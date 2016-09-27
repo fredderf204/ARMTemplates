@@ -20,7 +20,7 @@ https://azure.microsoft.com/en-us/documentation/articles/powershell-install-conf
 https://azure.microsoft.com/en-us/documentation/articles/xplat-cli-install/
 
 ## Usage
-Now have installed either Azure Powershell or the Azure CLI you are ready to deploy ARM templates. Please see the links below on how to deploy;
+Now have installed either Azure Powershell or the Azure Xplat CLI you are ready to deploy ARM templates. Please see the links below on how to deploy;
 
 #### Azure PowerShell
 https://azure.microsoft.com/en-us/documentation/articles/resource-group-template-deploy/
