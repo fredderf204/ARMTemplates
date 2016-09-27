@@ -31,7 +31,7 @@ https://azure.microsoft.com/en-us/documentation/articles/resource-group-template
 ## Deployment Examples
 Please see some deployment examples below;
 
-#### Deployment Script
+### Deployment Script
 Some of the ARM templates are accompanied by deploy.ps1 or deploy.sh scripts. These scripts can be used to facilitate the deployment of the ARM templates into Azure.
 
 The reason I have started using these scripts is because
@@ -39,14 +39,14 @@ The reason I have started using these scripts is because
 1. When producing demos in azure, I find it quicker and eaiser to run a script then to type out multiple commands
 2. When producing demos in azure, I use the script to randomise the names of my resource groups and resources.  
 
-#### Azure PowerShell
+### Azure PowerShell
 Below is one example on how to use PowerShell to deploy a new reosurce group in azure, followed by the command to test the ARM template and finally followed by a command to deploy the template to azure.
 
 1. `New-AzureRmResourceGroup -Name demo01 -Location "Australia East"`
 2. `Test-AzureRmResourceGroupDeployment -ResourceGroupName demo01 -TemplateUri 'https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.json' -TemplateParameterUri 'https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.parameters.json' -Verbose`
 3. `New-AzureRmResourceGroupDeployment -ResourceGroupName demo01 -TemplateUri 'https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.json' -TemplateParameterUri 'https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.parameters.json' -Verbose`
 
-#### Azure Xplat CLI
+### Azure Xplat CLI
 Below is one example on how to use bash and the azure xplat cli to deploy a new reosurce group in azure, followed by the command to test the ARM template and finally followed by a command to deploy the template to azure.
 
 1. `azure group create demo02 "australia east"`
