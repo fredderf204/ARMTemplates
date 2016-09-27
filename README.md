@@ -28,8 +28,15 @@ https://azure.microsoft.com/en-us/documentation/articles/resource-group-template
 #### Azure CLI
 https://azure.microsoft.com/en-us/documentation/articles/resource-group-template-deploy-cli/
 
-## Example
-Please see some examples below;
+## Deployment Examples
+Please see some deployment examples below;
+
+#### Deployment Script
+Some of the ARM templates are accompanied by deploy.ps1 or deploy.sh scripts. These scripts can be used to facilitate the deployment of the ARM templates into Azure.
+
+The reason I have started using these scripts is because;
+1. When producing demos in azure, I find it quicker and eaiser to run a script then to type out multiple commands
+2. When producing demos in azure, I use the script to randomise the names of my resource groups and resources.  
 
 #### Azure PowerShell
 1. `New-AzureRmResourceGroup -Name demo01 -Location "Australia East"`
