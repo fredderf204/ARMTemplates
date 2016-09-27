@@ -24,4 +24,4 @@ $slotname = 'staging'
 New-AzureRmResourceGroup -Name $par1 -Location 'Australia East'
 
 #Deploy azure resources from template
-New-AzureRmResourceGroupDeployment -ResourceGroupName 'test03' -TemplateFile $GHTempfile -slotName $slotname -appServicePlanName $par2 -webappname $par3 -repoURL $repoURL -branch $branch -Verbose
+New-AzureRmResourceGroupDeployment -ResourceGroupName $par1 -TemplateFile $GHTempfile -slotName $slotname -appServicePlanName $par2 -webappname $par3 -repoURL $repoURL -branch $branch -Verbose
