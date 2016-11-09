@@ -11,8 +11,8 @@ $par3 = -join ((65..90) + (97..122) | Get-Random -Count 8 | % {[char]$_})
 $par4 = -join ((65..90) + (97..122) | Get-Random -Count 8 | % {[char]$_})
 
 #GitHub parameters
-$GHTempfile = "https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github/azuredeploy.json"
-$repoURL = "https://github.com/fredderf204/mfnode23.git"
+$GHTempfile = "https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/webapp_github_appinsights/azuredeploy.json"
+$repoURL = "https://github.com/fredderf204/mfnode24.git"
 $branch = "master"
 
 #Create resource group
