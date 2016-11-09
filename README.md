@@ -2,7 +2,11 @@
 This is a collection of demo Azure Resource Manager Templates that I am working on.
 
 ## Index
+*webapp_deploymentslot* - Deploy a demo Azure Web App with SCM integration to a deployment slot for staged deployments
+
 *webapp_github* - Deploy a demo Azure Web App with SCM integration with a Public GitHub Repo
+
+*webapp_github_appinsights* - Deploy a demo Azure Web App with SCM integration with a Public GitHub Repo and integration with Application Insights
 
 *webapp_github_auto* - Deploy a demo Azure Web App with GitHub SCM integration and an Autoscaling profile
 
