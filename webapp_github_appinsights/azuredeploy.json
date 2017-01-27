@@ -95,7 +95,7 @@
         "[resourceId('Microsoft.Web/sites', parameters('webappName'))]"
         ],
         "properties": {
-            "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('Microsoft.Insights/components', parameters('webappName')), '2016-01-01').InstrumentationKey]"
+            "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('Microsoft.Insights/components', parameters('webappName')), '2015-05-01').InstrumentationKey]"
           }
         },        
         {
