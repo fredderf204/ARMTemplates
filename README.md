@@ -2,6 +2,8 @@
 This is a collection of demo Azure Resource Manager Templates that I am working on.
 
 ## Index
+*trafficmanager_2webapp* - Deploy 2 Azure Web Apps in different regions with a Traffic Manager Profile using weighted traffic Routing Method  
+
 *webapp_deploymentslot* - Deploy a demo Azure Web App with SCM integration to a deployment slot for staged deployments
 
 *webapp_github* - Deploy a demo Azure Web App with SCM integration with a Public GitHub Repo
@@ -12,7 +14,7 @@ This is a collection of demo Azure Resource Manager Templates that I am working 
 
 *webapp_localgit* - Deploy an Azure Web App with local Git SCM integration
 
-*trafficmanager_2webapp* - Deploy 2 Azure Web Apps in different regions with a Traffic Manager Profile using weighted traffic Routing Method  
+*webapp_localgit_slot* - Deploy an Azure Web App with local Git SCM integration to a deployment slot for staged deployments
 
 ## Installation
 To deploy these ARM templates, you will need to have either Azure PowerShell or the Azure Xplat CLI installed. Please see links below;
