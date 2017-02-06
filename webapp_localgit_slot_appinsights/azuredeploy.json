@@ -1,0 +1,139 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appServicePlanName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of hosting plan"
+      }
+    },
+    "webappname": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the web app"
+      }
+    },
+    "slotName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name if the Deployment Slot"
+      }
+    }
+  },
+  "variables": {
+    "apiVersion": "2015-08-01"
+  },
+  "resources": [
+    {
+      "apiVersion": "2014-08-01",
+      "location": "East US",
+      "name": "[parameters('webappName')]",
+      "type": "microsoft.insights/components",
+      "properties": {
+        "Application_Type": "General",
+        "ApplicationId": "[parameters('webappName')]",
+        "Name": "[parameters('webappName')]",
+        "Flow_Type": "Redfield",
+        "Request_Source": "ARMAIExtension"
+      }
+    },
+    {
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[parameters('appServicePlanName')]",
+      "type": "Microsoft.Web/serverfarms",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "S1",
+        "tier": "Standard"
+      },
+      "properties": {
+        "name": "[parameters('appServicePlanName')]"
+      }
+    },
+    {
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[parameters('webappName')]",
+      "type": "Microsoft.Web/sites",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ],
+      "properties": {
+        "serverFarmId": "[parameters('appServicePlanName')]"
+      },
+      "resources": [
+        {
+          "apiVersion": "[variables('apiVersion')]",
+          "name": "appsettings",
+          "type": "config",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', parameters('webappName'))]"
+          ],
+          "properties": {
+            "slotname": "Production",
+            "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('Microsoft.Insights/components/', parameters('webappName')), '2015-05-01').InstrumentationKey]"
+          }
+        },
+        {
+          "apiVersion": "[variables('apiVersion')]",
+          "name": "slotconfignames",
+          "type": "config",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', parameters('webappName'))]"
+          ],
+          "properties": {
+            "appSettingNames": [
+              "slotname"
+            ]
+          }
+        },
+        {
+          "apiVersion": "[variables('apiVersion')]",
+          "name": "[parameters('slotName')]",
+          "type": "slots",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', parameters('webappName'))]"
+          ],
+          "properties": {},
+          "resources": [
+            {
+              "apiVersion": "[variables('apiVersion')]",
+              "name": "web",
+              "type": "config",
+              "dependsOn": [
+                "[resourceId('Microsoft.Web/Sites', parameters('webappName'))]",
+                "[resourceId('Microsoft.Web/Sites/Slots', parameters('webappName'), parameters('slotName'))]"
+              ],
+              "properties": {
+                "scmType": "LocalGit"
+              }
+            },
+            {
+              "apiVersion": "[variables('apiVersion')]",
+              "name": "appsettings",
+              "type": "config",
+              "dependsOn": [
+                "[resourceId('Microsoft.Web/Sites/Slots', parameters('webappName'), parameters('slotName'))]"
+              ],
+              "properties": {
+                "slotname": "Staging"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "outputs": {
+    "web app url": {
+      "type": "string",
+      "value": "[concat('http://', parameters('webappname'), '.azurewebsites.net')]"
+    },
+    "web app slot url": {
+      "type": "string",
+      "value": "[concat('http://', parameters('webappname'), '-', parameters('slotName'), '.azurewebsites.net')]"
+    }
+  }
+}

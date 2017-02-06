@@ -50,13 +50,16 @@
   },
   "resources": [
     {
-      "apiVersion": "2015-05-01",
-      "name": "[parameters('webappName')]",
-      "type": "Microsoft.Insights/components",
+      "apiVersion": "2014-08-01",
       "location": "East US",
-      "kind": "other",
+      "name": "[parameters('webappName')]",
+      "type": "microsoft.insights/components",
       "properties": {
-        "applicationId": "[parameters('webappName')]"
+        "Application_Type": "General",
+        "ApplicationId": "[parameters('webappName')]",
+        "Name": "[parameters('webappName')]",
+        "Flow_Type": "Redfield",
+        "Request_Source": "ARMAIExtension"
       }
     },
     {
