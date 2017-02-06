@@ -16,6 +16,8 @@ This is a collection of demo Azure Resource Manager Templates that I am working 
 
 *webapp_localgit_slot* - Deploy an Azure Web App with local Git SCM integration to a deployment slot for staged deployments
 
+*webapp_localgit_slot_appinsights* - Deploy an Azure Web App with local Git SCM integration to a deployment slot for staged deployments with Application Insights
+
 ## Installation
 To deploy these ARM templates, you will need to have either Azure PowerShell or the Azure Xplat CLI installed. Please see links below;
 
