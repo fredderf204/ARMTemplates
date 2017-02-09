@@ -118,7 +118,8 @@
                 "[resourceId('Microsoft.Web/Sites/Slots', parameters('webappName'), parameters('slotName'))]"
               ],
               "properties": {
-                "slotname": "Staging"
+                "slotname": "Staging",
+                "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('Microsoft.Insights/components/', parameters('webappName')), '2015-05-01').InstrumentationKey]"
               }
             }
           ]
