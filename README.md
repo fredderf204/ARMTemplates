@@ -1,5 +1,5 @@
 # ARM Templates
-This is a collection of demo Azure Resource Manager Templates that I am working on.
+This is a collection of demo Azure Resource Manager Templates that I am working on :sweat_smile:
 
 ## Index
 
