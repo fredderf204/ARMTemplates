@@ -5,11 +5,11 @@ This is a collection of demo Azure Resource Manager Templates that I am working 
 
 |Template Name                         |Description                                                                                                                    |
 |:-------------------------------------|:------------------------------------------------------------------------------------------------------------------------------|
-| **trafficmanager_2webapp** :octocat:          | Deploy 2 Azure Web Apps in different regions with a Traffic Manager Profile using weighted traffic Routing Method.            |
-| **webapp_deploymentslot** :octocat:            | Deploy a demo Azure Web App with SCM integration to a deployment slot for staged deployments.                                 |
-| **webapp_github** :octocat:                    | Deploy a demo Azure Web App with SCM integration with a Public GitHub Repo.                                                   |
-| **webapp_github_appinsights** :octocat:        | Deploy a demo Azure Web App with SCM integration with a Public GitHub Repo and integration with Application Insights.         |
-| **webapp_github_auto** :octocat:               | Deploy a demo Azure Web App with GitHub SCM integration and an Autoscaling profile.                                           |
+| **trafficmanager_2webapp**           | Deploy 2 Azure Web Apps in different regions with a Traffic Manager Profile using weighted traffic Routing Method :octocat:             |
+| **webapp_deploymentslot**            | Deploy a demo Azure Web App with SCM integration :octocat: to a deployment slot for staged deployments.                                 |
+| **webapp_github**                    | Deploy a demo Azure Web App with SCM integration with a Public GitHub Repo:octocat:                                                    |
+| **webapp_github_appinsights**        | Deploy a demo Azure Web App with SCM integration with a Public GitHub Repo :octocat: and integration with Application Insights.         |
+| **webapp_github_auto**               | Deploy a demo Azure Web App with GitHub SCM integration :octocat: and an Autoscaling profile.                                           |
 | **webapp_localgit**                  | Deploy an Azure Web App with local Git SCM integration.                                                                       |
 | **webapp_localgit_slot**             | Deploy an Azure Web App with local Git SCM integration to a deployment slot for staged deployments.                           |
 | **webapp_localgit_slot_appinsights** | Deploy an Azure Web App with local Git SCM integration to a deployment slot for staged deployments with Application Insights. |
