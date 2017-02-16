@@ -46,7 +46,7 @@
     }
   },
   "variables": {
-    "apiVersion": "2015-08-01"
+    "apiVersion": "2016-03-01"
   },
   "resources": [
     {
@@ -60,7 +60,9 @@
       },
       "properties": {
         "name": "[parameters('appServicePlanName')]",
-        "reserved": true
+        "reserved": true,
+        "workerSizeId": 0,
+        "hostingEnvironment": ""
       },
       "kind": "linux"
     },
