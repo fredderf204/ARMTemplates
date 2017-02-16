@@ -1,0 +1,105 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appServicePlanName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of hosting plan"
+      }
+    },
+    "sku": {
+      "type": "string",
+      "metadata": {
+        "description": "SKU value"
+      }
+    },
+    "workerSize": {
+      "type": "string",
+      "metadata": {
+        "description": "Worker Size( 0=Small, 1=Medium, 2=Large )"
+      }
+    },
+    "numberworkers": {
+        "type": "string",
+        "metadata": {
+            "description": "Number of worker instances to be deployed"
+        }
+    },
+    "webappname": {
+        "type": "string",
+        "metadata": {
+            "description": "Name of the web app"
+        }
+    },
+    "repoURL": {
+      "type": "string",
+      "metadata": {
+        "description": "The URL to the GitHub repo"
+      }
+    },
+    "branch": {
+      "type": "string",
+      "metadata": {
+        "description": "The branch name of the GitHub repo"
+      }
+    }
+  },
+  "variables": {
+    "apiVersion": "2015-08-01"
+  },
+  "resources": [
+    {
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[parameters('appServicePlanName')]",
+      "type": "Microsoft.Web/serverfarms",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "[parameters('sku')]",
+        "capacity": "[parameters('workerSize')]"
+      },
+      "properties": {
+        "name": "[parameters('appServicePlanName')]",
+        "reserved": true
+      },
+      "kind": "linux"
+    },
+{
+       "apiVersion": "[variables('apiVersion')]",
+       "name": "[parameters('webappName')]",
+       "type": "Microsoft.Web/sites",
+       "location": "[resourceGroup().location]",
+       "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+      ],
+      "properties": {
+        "serverFarmId": "[parameters('appServicePlanName')]",
+        "nodeVersion": "6.2.2",
+        "nodestartupfile": "process.json"
+    },
+      "resources": [
+        {
+       "apiVersion": "[variables('apiVersion')]",
+       "name": "web",
+       "type": "sourcecontrols",
+       "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
+        "[resourceId('Microsoft.Web/sites', parameters('webappName'))]"
+      ],
+      "properties": {
+            "RepoUrl": "[parameters('repoURL')]",
+            "branch": "[parameters('branch')]",
+            "IsManualIntegration": false
+         }
+      }
+    ]
+}
+  ],
+  "outputs": {
+    "web app url": {
+        "type": "string",
+        "value": "[concat('http://', parameters('webappname'), '.azurewebsites.net')]"
+    }
+  }
+}
+
