@@ -85,8 +85,8 @@
                 "siteConfig": {
                     "appSettings": [
                         {
-                            "name": "[if(equals(parameters('appInsights'),'yes', 'APPINSIGHTS_INSTRUMENTATIONKEY', json('null))]",
-                            "value": "[if(equals(parameters('appInsights'),'yes', parameters('appInsightsKey'), json('null))]"
+                            "name": "[if(equals(parameters('appInsights'),'yes'), 'APPINSIGHTS_INSTRUMENTATIONKEY', json('null))]",
+                            "value": "[if(equals(parameters('appInsights'),'yes'), parameters('appInsightsKey'), json('null))]"
                         }
                     ]
                 },
