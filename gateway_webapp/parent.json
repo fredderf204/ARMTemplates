@@ -59,6 +59,7 @@
             "apiVersion": "2017-05-10",
             "name": "webapp_github",
             "type": "Microsoft.Resources/deployments",
+            "condition": "[equals(parameters('appInsights'), 'no')]",
             "dependsOn": [
                 "appInsights"
             ],
@@ -92,6 +93,51 @@
                     },
                     "appInsights": {
                         "value": "[parameters('appInsights')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "webapp_github",
+            "type": "Microsoft.Resources/deployments",
+            "condition": "[equals(parameters('appInsights'), 'yes')]",
+            "dependsOn": [
+                "appInsights"
+            ],
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "[variables('webapp_githubURL')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServicePlanName": {
+                        "value": "[parameters('appServicePlanName')]"
+                    },
+                    "sku": {
+                        "value": "S1"
+                    },
+                    "workerSize": {
+                        "value": "0"
+                    },
+                    "numberworkers": {
+                        "value": "1"
+                    },
+                    "webappName": {
+                        "value": "[parameters('webappName')]"
+                    },
+                    "repoURL": {
+                        "value": "[parameters('repoURL')]"
+                    },
+                    "branch": {
+                        "value": "master"
+                    },
+                    "appInsights": {
+                        "value": "[parameters('appInsights')]"
+                    },
+                    "appInsightsKey": {
+                        "value": "[reference('appInsights').outputs.appInsightsKey.value]"
                     }
                 }
             }
