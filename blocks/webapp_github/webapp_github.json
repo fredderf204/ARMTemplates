@@ -78,7 +78,6 @@
             "type": "Microsoft.Web/sites",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Insights/components', parameters('webappName'))]",
                 "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
             ],
             "properties": {
