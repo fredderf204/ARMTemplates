@@ -53,12 +53,6 @@
             "metadata": {
                 "description": "Select whether appInsights should be included"
             }
-        },
-        "appInsightsKey": {
-            "type": "string",
-            "metadata": {
-                "description": "If using appInsights, this is the instrumentation key"
-            }
         }
     },
     "variables": {
