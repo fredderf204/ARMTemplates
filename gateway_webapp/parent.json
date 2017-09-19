@@ -92,9 +92,6 @@
                     },
                     "appInsights": {
                         "value": "[parameters('appInsights')]"
-                    },
-                    "appInsightsKey": {
-                        "value": "[reference('appInsights').outputs.appInsightsKey.value]"
                     }
                 }
             }
