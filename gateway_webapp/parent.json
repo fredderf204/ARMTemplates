@@ -41,7 +41,7 @@
             "apiVersion": "2017-05-10",
             "name": "appInsights",
             "type": "Microsoft.Resources/deployments",
-            "condition": "[equals(patameters('appInsights'), 'yes')]",
+            "condition": "[equals(parameters('appInsights'), 'yes')]",
             "properties": {
                 "mode": "incremental",
                 "templateLink": {
