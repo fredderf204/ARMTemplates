@@ -32,7 +32,9 @@
         }
     },
     "variables": {
-        "templateBaseUrl": ""
+        "templateBaseUrl": "https://raw.githubusercontent.com/fredderf204/ARMTemplates/master/",
+        "appInsightsURL": "[concat(variables('templateBaseUrl'), 'blocks/appinsights/appinsights.json')]",
+        "webapp_githubURL": "[concat(variables('templateBaseUrl'), 'blocks/webapp_github/webapp_github.json')]"
     },
     "resources": [
         {
@@ -43,7 +45,7 @@
             "properties": {
                 "mode": "incremental",
                 "templateLink": {
-                    "uri": "https://www.contoso.com/AzureTemplates/newStorageAccount.json",
+                    "uri": "[variables('appInsightsURL')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -63,7 +65,7 @@
             "properties": {
                 "mode": "incremental",
                 "templateLink": {
-                    "uri": "https://www.contoso.com/AzureTemplates/newStorageAccount.json",
+                    "uri": "[variables('webapp_githubURL')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
