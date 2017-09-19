@@ -57,7 +57,7 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "webapp_github",
+            "name": "webapp_githubn",
             "type": "Microsoft.Resources/deployments",
             "condition": "[equals(parameters('appInsights'), 'no')]",
             "dependsOn": [
@@ -99,7 +99,7 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "webapp_github",
+            "name": "webapp_githuby",
             "type": "Microsoft.Resources/deployments",
             "condition": "[equals(parameters('appInsights'), 'yes')]",
             "dependsOn": [
@@ -146,7 +146,7 @@
     "outputs": {
         "webApp_URL": {
             "type": "string",
-            "value": "[reference('webapp_github').outputs.webApp_URL.value]"
+            "value": "[reference('webapp_githubn').outputs.webApp_URL.value]"
         }
     }
 }
