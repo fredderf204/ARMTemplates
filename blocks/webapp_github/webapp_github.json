@@ -98,7 +98,6 @@
                     "name": "web",
                     "type": "sourcecontrols",
                     "dependsOn": [
-                        "[resourceId('Microsoft.Insights/components', parameters('webappName'))]",
                         "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
                         "[resourceId('Microsoft.Web/sites', parameters('webappName'))]"
                     ],
