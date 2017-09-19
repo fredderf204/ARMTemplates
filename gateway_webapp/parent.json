@@ -1,0 +1,107 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appInsights": {
+            "type": "string",
+            "allowedValues": [
+                "yes",
+                "no"
+            ],
+            "metadata": {
+                "description": "Select whether appInsights should be included"
+            }
+        },
+        "appServicePlanName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of hosting plan"
+            }
+        },
+        "repoURL": {
+            "type": "string",
+            "metadata": {
+                "description": "The URL to the GitHub repo"
+            }
+        },
+        "webappName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the web app"
+            }
+        }
+    },
+    "variables": {
+        "templateBaseUrl": ""
+    },
+    "resources": [
+        {
+            "apiVersion": "2017-05-10",
+            "name": "appInsights",
+            "type": "Microsoft.Resources/deployments",
+            "condition": "[equals(patameters('appInsights'), 'yes')]",
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "https://www.contoso.com/AzureTemplates/newStorageAccount.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "webappName": {
+                        "value": "[parameters('webappName')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "webapp_github",
+            "type": "Microsoft.Resources/deployments",
+            "dependsOn": [
+                "appInsights"
+            ],
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "https://www.contoso.com/AzureTemplates/newStorageAccount.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServicePlanName": {
+                        "value": "[parameters('appServicePlanName')]"
+                    },
+                    "sku": {
+                        "value": "S1"
+                    },
+                    "workerSize": {
+                        "value": 0
+                    },
+                    "numberworkers": {
+                        "value": 1
+                    },
+                    "webappName": {
+                        "value": "[parameters('webappName')]"
+                    },
+                    "repoURL": {
+                        "value": "[parameters('repoURL')]"
+                    },
+                    "branch": {
+                        "value": "master"
+                    },
+                    "appInsights": {
+                        "value": "[parameters('appInsights')]"
+                    },
+                    "appInsightsKey": {
+                        "value": "[reference('appInsights').outputs.appInsightsKey.value]"
+                    }
+                }
+            }
+        }
+    ],
+    "outputs": {
+        "webApp_URL": {
+            "type": "string",
+            "value": "[reference('webapp_github').outputs.webApp_URL.value]"
+        }
+    }
+}

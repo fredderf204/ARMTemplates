@@ -1,0 +1,126 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appServicePlanName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of hosting plan"
+            }
+        },
+        "sku": {
+            "type": "string",
+            "metadata": {
+                "description": "SKU value"
+            }
+        },
+        "workerSize": {
+            "type": "string",
+            "metadata": {
+                "description": "Worker Size( 0=Small, 1=Medium, 2=Large )"
+            }
+        },
+        "numberworkers": {
+            "type": "string",
+            "metadata": {
+                "description": "Number of worker instances to be deployed"
+            }
+        },
+        "webappname": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the web app"
+            }
+        },
+        "repoURL": {
+            "type": "string",
+            "metadata": {
+                "description": "The URL to the GitHub repo"
+            }
+        },
+        "branch": {
+            "type": "string",
+            "metadata": {
+                "description": "The branch name of the GitHub repo"
+            }
+        },
+        "appInsights": {
+            "type": "string",
+            "allowedValues": [
+                "yes",
+                "no"
+            ],
+            "metadata": {
+                "description": "Select whether appInsights should be included"
+            }
+        },
+        "appInsightsKey": {
+            "type": "string",
+            "metadata": {
+                "description": "If using appInsights, this is the instrumentation key"
+            }
+        }
+    },
+    "variables": {
+        "webApiVersion": "2015-08-01"
+    },
+    "resources": [
+        {
+            "apiVersion": "[variables('webApiVersion')]",
+            "name": "[parameters('appServicePlanName')]",
+            "type": "Microsoft.Web/serverfarms",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "[parameters('sku')]",
+                "capacity": "[parameters('workerSize')]"
+            },
+            "properties": {
+                "name": "[parameters('appServicePlanName')]"
+            }
+        },
+        {
+            "apiVersion": "[variables('webApiVersion')]",
+            "name": "[parameters('webappName')]",
+            "type": "Microsoft.Web/sites",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Insights/components', parameters('webappName'))]",
+                "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+            ],
+            "properties": {
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "[if(equals(parameters('appInsights'),'yes', 'APPINSIGHTS_INSTRUMENTATIONKEY', json('null))]",
+                            "value": "[if(equals(parameters('appInsights'),'yes', parameters('appInsightsKey'), json('null))]"
+                        }
+                    ]
+                },
+                "serverFarmId": "[parameters('appServicePlanName')]"
+            },
+            "resources": [
+                {
+                    "apiVersion": "[variables('webApiVersion')]",
+                    "name": "web",
+                    "type": "sourcecontrols",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Insights/components', parameters('webappName'))]",
+                        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
+                        "[resourceId('Microsoft.Web/sites', parameters('webappName'))]"
+                    ],
+                    "properties": {
+                        "RepoUrl": "[parameters('repoURL')]",
+                        "branch": "[parameters('branch')]",
+                        "IsManualIntegration": false
+                    }
+                }
+            ]
+        }
+    ],
+    "outputs": {
+        "webApp_URL": {
+            "type": "string",
+            "value": "[concat('http://', parameters('webappname'), '.azurewebsites.net')]"
+        }
+    }
+}
