@@ -147,6 +147,10 @@
         "webApp_URL": {
             "type": "string",
             "value": "[reference('webapp_githubn').outputs.webApp_URL.value]"
+        },
+        "webApp_URL_appInsights": {
+            "type": "string",
+            "value": "[reference('webapp_githuby').outputs.webApp_URL.value]"
         }
     }
 }
