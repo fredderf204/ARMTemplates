@@ -42,7 +42,7 @@
             "name": "appInsights",
             "type": "Microsoft.Resources/deployments",
             "condition": "[equals(parameters('appInsights'), 'yes')]",
-            "comment": "Only gets deployed if the appInsights parameter is set to yes",
+            "comments": "Only gets deployed if the appInsights parameter is set to yes",
             "properties": {
                 "mode": "incremental",
                 "templateLink": {
@@ -61,7 +61,7 @@
             "name": "webapp_githubn",
             "type": "Microsoft.Resources/deployments",
             "condition": "[equals(parameters('appInsights'), 'no')]",
-            "comment": "Only gets deployed if the appInsights parameter is set to no",
+            "comments": "Only gets deployed if the appInsights parameter is set to no",
             "properties": {
                 "mode": "incremental",
                 "templateLink": {
@@ -101,7 +101,7 @@
             "name": "webapp_githuby",
             "type": "Microsoft.Resources/deployments",
             "condition": "[equals(parameters('appInsights'), 'yes')]",
-            "comment": "Only gets deployed if the appInsights parameter is set to yes",
+            "comments": "Only gets deployed if the appInsights parameter is set to yes",
             "dependsOn": [
                 "appInsights"
             ],
