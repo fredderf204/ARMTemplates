@@ -56,7 +56,7 @@
         },
         "appInsightsKey": {
             "type": "string",
-            "defaultValue": "",
+            "defaultValue": "test",
             "metadata": {
                 "description": "If appInsights has been selected, this will be the instrumentation key"
             }
