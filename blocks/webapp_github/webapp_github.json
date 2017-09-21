@@ -88,23 +88,26 @@
                 "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
             ],
             "properties": {
-                "siteConfig": {
-                    "appSettings": [
-                        {
-                            "name": "[if(equals(parameters('appInsights'),'yes'), 'APPINSIGHTS_INSTRUMENTATIONKEY', json('null'))]",
-                            "value": "[if(equals(parameters('appInsights'),'yes'), parameters('appInsightsKey'), json('null'))]"
-                        }
-                    ]
-                },
                 "serverFarmId": "[parameters('appServicePlanName')]"
             },
             "resources": [
                 {
                     "apiVersion": "[variables('webApiVersion')]",
+                    "name": "appsettings",
+                    "type": "config",
+                    "condition": "[equals(parameters('appInsights'), 'yes')]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/sites', parameters('webappName'))]"
+                    ],
+                    "properties": {
+                        "APPINSIGHTS_INSTRUMENTATIONKEY": "parameters('appInsightsKey')"
+                    }
+                },                
+                {
+                    "apiVersion": "[variables('webApiVersion')]",
                     "name": "web",
                     "type": "sourcecontrols",
                     "dependsOn": [
-                        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
                         "[resourceId('Microsoft.Web/sites', parameters('webappName'))]"
                     ],
                     "properties": {
